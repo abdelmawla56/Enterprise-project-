@@ -27,3 +27,4 @@ public class Task extends BaseMultiTenantEntity {
     @JoinColumn(name = "project_id")
     private Project project;
 }
+

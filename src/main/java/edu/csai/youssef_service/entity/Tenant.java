@@ -21,3 +21,4 @@ public class Tenant {
     @Column(nullable = false)
     private String plan;
 }
+

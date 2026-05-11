@@ -16,41 +16,40 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
+        @Autowired
+        private UserRepository userRepository;
 
-    @Autowired
-    private JwtUtils jwtUtils;
+        @Autowired
+        private JwtUtils jwtUtils;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+        @Autowired
+        private AuthenticationManager authenticationManager;
 
-    public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
+        public AuthResponse login(LoginRequest request) {
+                authenticationManager.authenticate(
+                                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                User user = userRepository.findByEmail(request.getEmail())
+                                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        String token = jwtUtils.generateToken(user.getEmail(), user.getTenantId());
+                String token = jwtUtils.generateToken(user.getEmail(), user.getTenantId(), user.getRoles());
 
-        return AuthResponse.builder()
-                .token(token)
-                .tenantId(user.getTenantId())
-                .build();
-    }
+                return AuthResponse.builder()
+                                .token(token)
+                                .tenantId(user.getTenantId())
+                                .build();
+        }
 
-    public UserResponse getCurrentUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        public UserResponse getCurrentUser() {
+                String email = SecurityContextHolder.getContext().getAuthentication().getName();
+                User user = userRepository.findByEmail(email)
+                                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return UserResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .roles(user.getRoles())
-                .tenantId(user.getTenantId())
-                .build();
-    }
+                return UserResponse.builder()
+                                .id(user.getId())
+                                .email(user.getEmail())
+                                .roles(user.getRoles())
+                                .tenantId(user.getTenantId())
+                                .build();
+        }
 }

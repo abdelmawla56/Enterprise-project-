@@ -22,10 +22,11 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String email, Long tenantId) {
+    public String generateToken(String email, Long tenantId, String roles) {
         return Jwts.builder()
                 .subject(email)
                 .claim("tenantId", tenantId)
+                .claim("roles", roles)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey())
@@ -61,4 +62,14 @@ public class JwtUtils {
                 .getPayload();
         return claims.get("tenantId", Long.class);
     }
+
+    public String getRolesFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("roles", String.class);
+    }
 }
+

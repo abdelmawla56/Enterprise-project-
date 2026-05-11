@@ -23,3 +23,4 @@ public class User extends BaseMultiTenantEntity {
 
     private String roles;
 }
+

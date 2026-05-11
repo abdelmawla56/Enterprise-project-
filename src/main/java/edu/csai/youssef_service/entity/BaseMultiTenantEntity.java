@@ -15,3 +15,4 @@ public abstract class BaseMultiTenantEntity {
     @Column(name = "tenant_id", nullable = false)
     private Long tenantId;
 }
+

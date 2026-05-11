@@ -25,7 +25,7 @@ public class Project extends BaseMultiTenantEntity {
     @Column(nullable = false)
     private String createdBy;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @Builder.Default
     private List<Task> tasks = new ArrayList<>();
 }

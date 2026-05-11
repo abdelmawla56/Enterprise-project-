@@ -1,0 +1,13 @@
+.gradle
+build
+bin
+out
+.idea
+.vscode
+.git
+*.log
+Dockerfile
+docker-compose.yml
+.github
+terraform
+k8s

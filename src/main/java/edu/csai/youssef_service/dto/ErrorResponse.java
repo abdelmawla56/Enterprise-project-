@@ -15,3 +15,4 @@ public class ErrorResponse {
     private String message;
     private Map<String, String> details;
 }
+
